@@ -1,0 +1,31 @@
+[tool.poetry]
+authors = ["Danil Arkhipov <aceloolrd@gmail.com>"]
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.12"
+matplotlib = "^3.10.0"
+tensorboard = "^2.19.0"
+opencv-python = "^4.11.0.86"
+albumentations = "^2.0.4"
+numpy = "^2.2.3"
+segmentation-models-pytorch = "^0.4.0"
+pytorch-lightning = "^2.5.0.post0"
+pathlib = "^1.0.1"
+
+[tool.poetry.dependencies.torch]
+version = "2.5.1+cu124"
+source = "custom-pytorch"
+
+[tool.poetry.dependencies.torchvision]
+version = "0.20.1+cu124"
+source = "custom-pytorch"
+
+[[tool.poetry.source]]
+name = "custom-pytorch"
+url = "https://download.pytorch.org/whl/cu124"
+priority = "explicit"  # Исправлено с "default"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

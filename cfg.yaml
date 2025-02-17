@@ -1,0 +1,26 @@
+# Пути к данным
+DATASET_PATH: "E:/Programs/Work/object_detect/binary_segmentation/data/splits"
+
+# Параметры модели
+ARCH: "unetplusplus"
+ENCODER_NAME: "resnext50_32x4d"
+ENCODER_WEIGHTS: "ssl"
+IN_CHANNELS: 1
+OUT_CLASSES: 1
+
+# Функция потерь
+# CRITERION: "BCEDiceLoss"
+
+# Гиперпараметры обучения
+LR: 0.0001
+BATCH_SIZE: 4
+EPOCHS: 50
+
+# Оборудование
+ACCELERATOR: "gpu"
+NUM_WORKERS: 2
+
+# Настройки экспериментов
+DEFAULT_ROOT_DIR: "experiments"
+EXPERIMENT: "Unet++"
+CKPT_PATH: "experiments/checkpoints/Unet++/last.ckpt"
