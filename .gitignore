@@ -1,4 +1,8 @@
+/all
 /.venv
-/__pycache__
-/experiments
+**/__pycache__/
+/.idea
+/.vscode
 poetry.lock
+pyproject2.toml
+output.mp4
