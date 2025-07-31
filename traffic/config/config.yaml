@@ -1,0 +1,105 @@
+# config/config.yaml
+
+# Параметры ввода: путь к видео или .sff, пропуск кадров, порог пикета для SFF
+input:
+  video_path: "E:/Camera_2/Video.sff"     # или "data/input.sff"
+  reverse: false
+  frame_skip: 2
+
+# Общие параметры пайплайна
+pipeline:
+  use_tracking: true
+  use_axle: true
+  axle_period: 2
+  hz_start: null
+  hz_stop: null
+  vz_start: null
+  vz_stop: null
+  log_every: 10
+  zones: {}     # если нужны зоны, добавить здесь
+  lines: {}     # если нужны линии, добавить здесь
+
+# Параметры вывода
+output:
+  draw_results: true
+
+  # bbox + text
+  vehicle_color: [0, 255, 0]          # цвет боксов машин
+  wheel_box_color: [255, 255, 0]     # цвет боксов колёс
+  box_label_color: [255, 255, 255]  # цвет текста на боксе
+  box_thickness: 2
+  text_color: [0, 0, 0]                # цвет текста
+  text_scale: 0.5
+  text_thickness: 1 
+  # font: "Arial"
+
+  # колеса
+  center_inlier_color: [0, 255, 0]   # цвет центров осей (инлайнеры)
+  center_outlier_color: [0, 0, 255]   # цвет центров осей (аутлайнеры)
+  axle_color: [255, 0, 0]             # цвет осей
+  center_radius: 3                    # радиус кружков центров осей
+  axle_thickness: 2                   # толщина линий осей
+
+  csv_path: "results/statistics.csv"
+  out_video_path: "output.mp4"
+  out_fps: 25
+
+# Настройки детектора машин (YOLO Ultralytics)
+vehicle_detector:
+  model_path: "weights/yolo11m.pt"
+  confidence_threshold: 0.4
+  iou_threshold: 0.3
+  classes: [2, 3, 5, 7]
+  max_det: 20
+  device: "cuda:0"
+  half: true
+  verbose: false
+
+# Настройки классификатора (если понадобится)
+classifier:
+  model_path: "weights/resnet34_vehicle_classifier_224.pth"
+  class_names:
+    - bus
+    - moto
+    - tractor
+    - tractor-trailer
+    - truck
+    - truck-trailer
+  input_size: 224
+  device: "cuda:0"
+  half: true
+
+# Параметры трекера (DeepSort)
+tracker:
+  max_iou_distance: 0.5
+  max_age: 20
+  n_init: 3
+  max_cosine_distance: 0.2
+  nn_budget: 100
+  gating_only_position: true
+  embedder: "mobilenet"
+  half: true
+  bgr: false
+  embedder_gpu: true
+
+# Конфиг для AxleCounter
+wheels_counter:
+  # внутренний колесный детектор будет инициализироваться теми же весами
+  wheels_detector:
+    model_path: "weights/best0.pt"
+    confidence_threshold: 0.4
+    iou_threshold: 0.5
+    device: "cuda:0"
+    half: true
+    verbose: false
+
+  # RANSAC-параметры для выделения оси
+  ransac_residual_threshold: 5
+  ransac_max_trials: 100
+  # стабилизация «скользящим» окном
+  history_len: 5
+  # минимальное число осей при отсутствии данных
+  default_axles: 2
+
+  # padding при кропе автомобиля для поиска колёс
+  padding: 5
